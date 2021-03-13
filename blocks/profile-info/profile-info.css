@@ -1,0 +1,7 @@
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  max-width: 336px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}

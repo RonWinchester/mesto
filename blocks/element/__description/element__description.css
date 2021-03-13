@@ -1,0 +1,9 @@
+.element__description {
+  display: flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  max-width: calc(100% - 21px - 15px);
+  margin: 0 auto;
+  margin-top: 25px;
+  margin-bottom: 31px;
+}
