@@ -4,10 +4,12 @@
   max-width: 336px;
   flex-wrap: wrap;
   align-items: baseline;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width:767px) {
-  .profile-info  {
+  .profile-info {
+    max-width: 280px;
     justify-content: center;
     margin-top: 23px;
   }

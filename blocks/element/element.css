@@ -1,8 +1,6 @@
 .element {
-  padding: 0;
-  list-style: none;
-  display:grid;
-  gap: 20px 17px;
-  grid-template-columns: repeat(auto-fit, 282px);
-  justify-content: center;
+  max-width: 282px;
+  background-color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
 }
