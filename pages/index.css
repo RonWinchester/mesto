@@ -23,6 +23,16 @@
 @import url(../blocks/element/__button-heart/_active/element__button-heart_active.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/copyright/copyright.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/__content/popup__content.css);
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__name/form__name.css);
+@import url(../blocks/form/__fildset/form__fildset.css);
+@import url(../blocks/form/__label/form__label.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__button/form__button.css);
+
 
 
 

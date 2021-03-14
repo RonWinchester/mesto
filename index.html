@@ -17,7 +17,7 @@
       <section class="profile wrapper">
         <img class="avatar" alt="аватар" src="./images/image.jpg">
         <div class="profile-info">
-          <p class="profile-info__name">Жак-Ив Кусто</p>
+          <h1 class="profile-info__name">Жак-Ив Кусто</h1>
           <button class="profile-info__button"></button>
           <p class="profile-info__job">Исследователь океана</p>
         </div>
@@ -69,6 +69,21 @@
           </li>
         </ul>
       </section>
+      <div class="popup">
+        <div class="popup__content">
+          <button class="popup__close-button"></button>
+          <form class="form">
+            <h2 class='form__name'>Редактировать профиль</h2>
+            <fieldset class="form__fildset">
+              <label class="form__label" for="nameInput"></label>
+              <input class='form__input' type="text" id="nameInput" name="firstName" placeholder="" required>
+              <label class="form__label" for="jobInput"></label>
+              <input class='form__input' type="text" id="jobInput" name="JobProfile" placeholder="">
+              <button class="form__button">Сохранить</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
     </main>
     <footer class="footer wrapper">
       <p class="copyright">&#169; 2020 Mesto Russia</p>
