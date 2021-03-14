@@ -5,7 +5,7 @@
   width: 24px;
   height: 24px;
   background-color: transparent;
-  background-image: url('/images/Vector-icon.svg');
+  background-image: url('../../../images/Vector-icon.svg');
   background-repeat: no-repeat;
   background-position: center;
 }

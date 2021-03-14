@@ -8,9 +8,9 @@
   width: 150px;
   height: 50px;
 
-  background-image: url('/images/Vector-button.svg');
+  background-image: url('../../images/Vector-button.svg');
   background-repeat: no-repeat;
-  background-position: center; /*не совпадает размерами по пиксель перфект*/
+  background-position: center;
 }
 
 .add-button:hover {
