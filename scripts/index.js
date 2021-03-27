@@ -1,18 +1,26 @@
-let popup = document.querySelector('#profileEditForm');
-let profileButton = document.querySelector('.profile-info__button');
-let popupClose = document.querySelectorAll('.popup__close-button');
-let nameInput = document.querySelector('#nameInput');
-let jobInput = document.querySelector('#jobInput');
-let formProfile = document.querySelector('#profileForm')
-let profileInfoName = document.querySelector('.profile-info__name');
-let profileInfoJob = document.querySelector('.profile-info__job');
-const elementList = document.querySelector('.elements__list');
-const addElementButton = document.querySelector('.profile__add-button');
+const popupEditForm = document.querySelector('#profileEditForm');
 const elementAddForm = document.querySelector('#elementAddForm');
+
+const profileButton = document.querySelector('.profile-info__button');
+const addElementButton = document.querySelector('.profile__add-button');
+
+const formProfile = document.querySelector('#profileForm');
+const nameInput = document.querySelector('#nameInput');
+const jobInput = document.querySelector('#jobInput');
+const profileInfoName = document.querySelector('.profile-info__name');
+const profileInfoJob = document.querySelector('.profile-info__job');
+
+const elementList = document.querySelector('.elements__list');
+
 const cardsTemplate = document.querySelector('#cardsElement').content;
+
+const ImageAddForm = document.querySelector('#ImageAddForm');
 const nameImage = document.querySelector('#nameImage');
 const urlImage = document.querySelector('#urlImage');
-const ImageAddForm = document.querySelector('#ImageAddForm')
+
+//Кнопки закрытия попапов
+const popupEditCloseButton = popupEditForm.querySelector('.popup__close-button');
+const popupAddCloseButton = elementAddForm.querySelector('.popup__close-button');
 
 const initialCards = [
   {
@@ -41,15 +49,9 @@ const initialCards = [
   }
 ];
 
-// Открытие попапа профиля
-let openPopup = () => {
-  popup.classList.add('popup_opened');
-  nameInput.value = profileInfoName.textContent;
-  jobInput.value = profileInfoJob.textContent;
-}
-// Закрытие попапа профиля
-let closePopup = (anyPopup) => {
-  anyPopup.classList.remove('popup_opened')
+// Открытие и закрытие попапа
+function togglePopupWindow(popup) {
+  popup.classList.toggle('popup_opened')
 };
 
 // Отправка формы редактирования профиля
@@ -57,7 +59,7 @@ function formSubmitHandler(evt) {
   evt.preventDefault();
   profileInfoName.textContent = nameInput.value;
   profileInfoJob.textContent = jobInput.value;
-  closePopup(popup)
+  togglePopupWindow(popupEditForm);
 }
 
 //Загрузка первых карточек
@@ -70,6 +72,12 @@ const loadCards = initialCards.forEach((item) => {
 
   cardsElement.querySelector('.element__button-heart').addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__button-heart_active');
+  })
+
+  // Удаление карточки
+  const buttonRemove = cardsElement.querySelector('.element__button-remove');
+  buttonRemove.addEventListener('click', () => {
+    cardsElement.remove();
   })
 });
 
@@ -88,30 +96,32 @@ function addCardElement(evt) {
 
   urlImage.value = '';
   nameImage.value = '';
-  closePopup(elementAddForm)
+
+  // Удаление карточки
+  const buttonRemove = cardsElement.querySelector('.element__button-remove');
+  buttonRemove.addEventListener('click', () => {
+    cardsElement.remove();
+  })
+  togglePopupWindow(elementAddForm)
 }
 
-
-//Открытие формы добавления карточки
-addElementButton.addEventListener('click', function () {
-  elementAddForm.classList.add('popup_opened');
+profileButton.addEventListener('click', () => {
+  togglePopupWindow(popupEditForm)
+  nameInput.value = profileInfoName.textContent;
+  jobInput.value = profileInfoJob.textContent;
 });
-/* // Закрытие формы добавления карточки - переделать!
-const elementX = elementAddForm.querySelector('.popup__close-button'); */
 
-/* elementX.addEventListener('click', function () { elementAddForm.classList.remove('popup_opened') });
- */
-profileButton.addEventListener('click', openPopup);
+addElementButton.addEventListener('click', () => {
+  togglePopupWindow(elementAddForm)
+});
 
-/* popupClose.addEventListener('click', closePopup);
- */
+popupEditCloseButton.addEventListener('click', () => {
+  togglePopupWindow(popupEditForm)
+});
 
-popupClose.forEach((item) => {
-  item.addEventListener('click', function (e) {
-    const eventTarget = e.target.parentNode;
-    closePopup(eventTarget.parentNode)
-  });
-})
+popupAddCloseButton.addEventListener('click', () => {
+  togglePopupWindow(elementAddForm)
+});
 
 formProfile.addEventListener('submit', formSubmitHandler);
 
