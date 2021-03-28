@@ -62,6 +62,21 @@ function formSubmitHandler(evt) {
   togglePopupWindow(popupEditForm);
 }
 
+//Подтягиваем лайки
+function likeToggleCards(element) {
+  element.querySelector('.element__button-heart').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('element__button-heart_active');
+  })
+};
+
+//Удаление карточки
+function removeCards(element) {
+  const buttonRemove = element.querySelector('.element__button-remove');
+  buttonRemove.addEventListener('click', () => {
+    element.remove();
+  })
+}
+
 //Загрузка первых карточек
 const loadCards = initialCards.forEach((item) => {
   const cardsElement = cardsTemplate.querySelector('.element').cloneNode('true');
@@ -70,15 +85,8 @@ const loadCards = initialCards.forEach((item) => {
   cardsElement.querySelector('.element__name').textContent = item.name;
   elementList.append(cardsElement);
 
-  cardsElement.querySelector('.element__button-heart').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__button-heart_active');
-  })
-
-  // Удаление карточки
-  const buttonRemove = cardsElement.querySelector('.element__button-remove');
-  buttonRemove.addEventListener('click', () => {
-    cardsElement.remove();
-  })
+  likeToggleCards(cardsElement);
+  removeCards(cardsElement);
 });
 
 //Добавление новых карточек из формы
@@ -89,19 +97,11 @@ function addCardElement(evt) {
   cardsElement.querySelector('.element__image').alt = nameImage.value;
   cardsElement.querySelector('.element__name').textContent = nameImage.value;
   elementList.prepend(cardsElement);
-
-  cardsElement.querySelector('.element__button-heart').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__button-heart_active');
-  })
-
   urlImage.value = '';
   nameImage.value = '';
 
-  // Удаление карточки
-  const buttonRemove = cardsElement.querySelector('.element__button-remove');
-  buttonRemove.addEventListener('click', () => {
-    cardsElement.remove();
-  })
+  likeToggleCards(cardsElement);
+  removeCards(cardsElement)
   togglePopupWindow(elementAddForm)
 }
 
