@@ -24,9 +24,6 @@ const urlImage = document.querySelector('#urlImage');
 const popupEditCloseButton = popupEditForm.querySelector('.popup__close-button');
 const popupAddCloseButton = elementAddForm.querySelector('.popup__close-button');
 
-
-
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -87,18 +84,19 @@ function generateCard(item) {
   const imagePopup = imagePopupTemplate.querySelector('.popup').cloneNode('true');
   const imagePopupPicture = imagePopup.querySelector('.popup__image-figure');
   const imagePopupFigcaption = imagePopup.querySelector('.popup__figcaption');
+  imagePopupPicture.src = item.src;
+  imagePopupPicture.alt = item.textContent;
+  imagePopupFigcaption.textContent = item.alt;
+  togglePopupWindow(imagePopup);
+  elementList.after(imagePopup);
 
-  function imagePopupOpen(e) {
-    imagePopupPicture.src = item.querySelector('.popup__image').src;
-    imagePopupPicture.alt = item.querySelector('.popup__figcaption').textContent;
-    imagePopupFigcaption.textContent = item.querySelector('.popup__name').textContent;
+  const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
+
+  popupImageCloseButton.addEventListener('click', () => {
     togglePopupWindow(imagePopup);
-  }
-
-  const imageInCard = item.querySelector('.popup__image');
-  imageInCard.addEventListener('click', () => {
-    console.log('ss')
+    imagePopup.remove()
   });
+
 }
 
 //Загрузка первых карточек
@@ -114,28 +112,10 @@ function loadCards(item) {
 
   const imageElement = cardsElement.querySelector('.element__image');
 
-
-
-  imageElement.addEventListener('click', (evt) => {
-    const imagePopup = imagePopupTemplate.querySelector('.popup').cloneNode('true');
-    const imagePopupPicture = imagePopup.querySelector('.popup__image-figure');
-    const imagePopupFigcaption = imagePopup.querySelector('.popup__figcaption');
-    imagePopupPicture.src = imageElement.src;
-    imagePopupPicture.alt = imageElement.textContent;
-    imagePopupFigcaption.textContent = imageElement.alt;
-    togglePopupWindow(imagePopup);
-    elementList.after(imagePopup);
-
-    const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
-
-    popupImageCloseButton.addEventListener('click', () => {
-      togglePopupWindow(imagePopup)
-    });
-
-  })
+  imageElement.addEventListener('click', () => {
+    generateCard(imageElement)
+  });
 }
-
-initialCards.forEach(loadCards)
 
 //Добавление новых карточек из формы
 function addCardElement(evt) {
@@ -151,7 +131,15 @@ function addCardElement(evt) {
   likeToggleCards(cardsElement);
   removeCards(cardsElement)
   togglePopupWindow(elementAddForm)
+
+  const picturesCards = cardsElement.querySelector('.element__image');
+
+  picturesCards.addEventListener('click', () => {
+    generateCard(picturesCards)
+  });
 };
+
+initialCards.forEach(loadCards)
 
 profileButton.addEventListener('click', () => {
   togglePopupWindow(popupEditForm)

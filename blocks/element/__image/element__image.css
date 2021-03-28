@@ -5,4 +5,5 @@
   border-top-right-radius: 10px;
   height: 282px;
   display: block;
+  cursor: pointer;
 }
