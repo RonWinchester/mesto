@@ -36,8 +36,8 @@
         <form class="form" name="profileEdit" id='profileForm'>
           <h2 class="form__name">Редактировать профиль</h2>
           <fieldset class="form__fildset">
-            <input class="form__input" type="text" id="nameInput" name="firstName" placeholder="" required>
-            <input class="form__input" type="text" id="jobInput" name="JobProfile" placeholder="">
+            <input class="form__input" type="text" id="nameInput" name="firstName" placeholder="Имя" required>
+            <input class="form__input" type="text" id="jobInput" name="JobProfile" placeholder="О себе">
             <button class="form__button" type="submit">Сохранить</button>
           </fieldset>
         </form>
@@ -60,6 +60,14 @@
       </div>
     </div>
 
+    <div class="popup" id="imagePopup">
+      <figure class="popup__figure">
+        <button class="popup__close-button" type="button"></button>
+        <img class="popup__image-figure" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg" alt="ИмяИзображения">
+        <figcaption class="popup__figcaption">Камчатка</figcaption>
+      </figure>
+    </div>
+
     <footer class="footer wrapper">
       <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
     </footer>
@@ -73,15 +81,6 @@
         <button class="element__button-heart" type="button"></button>
       </div>
     </li>
-  </template>
-  <template id="imagePopup">
-    <div class="popup">
-      <figure class="popup__figure">
-        <button class="popup__close-button" type="button"></button>
-        <img class="popup__image-figure" src="Адрес" alt="ИмяИзображения">
-        <figcaption class="popup__figcaption">Камчатка</figcaption>
-      </figure>
-    </div>
   </template>
 
   <script src="./scripts/index.js"></script>

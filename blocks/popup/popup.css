@@ -8,5 +8,8 @@
   color: black;
   justify-content: center;
   align-items: center;
-  display: none;
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0.3s, opacity 0.3s linear;
 }

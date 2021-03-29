@@ -1,7 +1,6 @@
 const popupEditForm = document.querySelector('#profileEditForm');
 const elementAddForm = document.querySelector('#elementAddForm');
-const imagePopupTemplate = document.querySelector('#imagePopup').content;
-
+const imagePopup = document.querySelector('#imagePopup');
 
 const profileButton = document.querySelector('.profile-info__button');
 const addElementButton = document.querySelector('.profile__add-button');
@@ -51,9 +50,14 @@ const initialCards = [
   }
 ];
 
-// Открытие и закрытие попапа
-function togglePopupWindow(popup) {
-  popup.classList.toggle('popup_opened')
+// Открытие попапа
+function addPopupWindow(popup) {
+  popup.classList.add('popup_opened')
+};
+
+//Закрытие попапа
+function removePopupWindow(popup) {
+  popup.classList.remove('popup_opened')
 };
 
 // Отправка формы редактирования профиля
@@ -61,7 +65,7 @@ function formSubmitHandler(evt) {
   evt.preventDefault();
   profileInfoName.textContent = nameInput.value;
   profileInfoJob.textContent = jobInput.value;
-  togglePopupWindow(popupEditForm);
+  removePopupWindow(popupEditForm);
 }
 
 //Подтягиваем лайки
@@ -81,82 +85,77 @@ function removeCards(element) {
 
 // Открытие попапа карточки
 function generateCard(item) {
-  const imagePopup = imagePopupTemplate.querySelector('.popup').cloneNode('true');
   const imagePopupPicture = imagePopup.querySelector('.popup__image-figure');
   const imagePopupFigcaption = imagePopup.querySelector('.popup__figcaption');
   imagePopupPicture.src = item.src;
   imagePopupPicture.alt = item.textContent;
   imagePopupFigcaption.textContent = item.alt;
-  togglePopupWindow(imagePopup);
-  elementList.after(imagePopup);
+  addPopupWindow(imagePopup);
 
   const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
 
   popupImageCloseButton.addEventListener('click', () => {
-    togglePopupWindow(imagePopup);
-    imagePopup.remove()
+    removePopupWindow(imagePopup);
   });
 
 }
 
-//Загрузка первых карточек
-function loadCards(item) {
+// Инициализация карточки
+function getCardElement(itemLink, itemName) {
   const cardsElement = cardsTemplate.querySelector('.element').cloneNode('true');
-  cardsElement.querySelector('.element__image').src = item.link;
-  cardsElement.querySelector('.element__image').alt = item.name;
-  cardsElement.querySelector('.element__name').textContent = item.name;
-  elementList.append(cardsElement);
+  const imageElement = cardsElement.querySelector('.element__image');
+  imageElement.src = itemLink;
+  imageElement.alt = itemName;
+  cardsElement.querySelector('.element__name').textContent = itemName;
 
   likeToggleCards(cardsElement);
   removeCards(cardsElement);
 
-  const imageElement = cardsElement.querySelector('.element__image');
-
   imageElement.addEventListener('click', () => {
     generateCard(imageElement)
   });
+
+  return cardsElement
+}
+
+//Добавление карточки в контейнер
+function renderCard(container, itemLink, itemName) {
+  container.prepend(getCardElement(itemLink, itemName));
+};
+
+//Загрузка первых карточек
+function rendCardsElement(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    renderCard(elementList, arr[i].link, arr[i].name)
+  } return renderCard
 }
 
 //Добавление новых карточек из формы
 function addCardElement(evt) {
-  evt.preventDefault();
-  const cardsElement = cardsTemplate.querySelector('.element').cloneNode('true');
-  cardsElement.querySelector('.element__image').src = urlImage.value;
-  cardsElement.querySelector('.element__image').alt = nameImage.value;
-  cardsElement.querySelector('.element__name').textContent = nameImage.value;
-  elementList.prepend(cardsElement);
-  urlImage.value = '';
-  nameImage.value = '';
-
-  likeToggleCards(cardsElement);
-  removeCards(cardsElement)
-  togglePopupWindow(elementAddForm)
-
-  const picturesCards = cardsElement.querySelector('.element__image');
-
-  picturesCards.addEventListener('click', () => {
-    generateCard(picturesCards)
-  });
+  evt.preventDefault()
+  renderCard(elementList, urlImage.value, nameImage.value)
+  removePopupWindow(elementAddForm)
+  ImageAddForm.reset()
 };
 
-initialCards.forEach(loadCards)
+rendCardsElement(initialCards);
 
 profileButton.addEventListener('click', () => {
-  togglePopupWindow(popupEditForm)
+  addPopupWindow(popupEditForm)
   nameInput.value = profileInfoName.textContent;
   jobInput.value = profileInfoJob.textContent;
 });
 
 addElementButton.addEventListener('click', () => {
-  togglePopupWindow(elementAddForm)
+  addPopupWindow(elementAddForm)
 });
 
 popupEditCloseButton.addEventListener('click', () => {
-  togglePopupWindow(popupEditForm)
+  removePopupWindow(popupEditForm)
 });
 
 popupAddCloseButton.addEventListener('click', () => {
-  togglePopupWindow(elementAddForm)
+  removePopupWindow(elementAddForm)
 });
 
 formProfile.addEventListener('submit', formSubmitHandler);
