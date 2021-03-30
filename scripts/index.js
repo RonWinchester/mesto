@@ -15,7 +15,7 @@ const elementList = document.querySelector('.elements__list');
 
 const cardsTemplate = document.querySelector('#cardsElement').content;
 
-const ImageAddForm = document.querySelector('#ImageAddForm');
+const imageAddForm = document.querySelector('#ImageAddForm');
 const nameImage = document.querySelector('#nameImage');
 const urlImage = document.querySelector('#urlImage');
 
@@ -51,12 +51,12 @@ const initialCards = [
 ];
 
 // Открытие попапа
-function addPopupWindow(popup) {
+function openPopup(popup) {
   popup.classList.add('popup_opened')
 };
 
 //Закрытие попапа
-function removePopupWindow(popup) {
+function closePopup(popup) {
   popup.classList.remove('popup_opened')
 };
 
@@ -65,7 +65,7 @@ function formSubmitHandler(evt) {
   evt.preventDefault();
   profileInfoName.textContent = nameInput.value;
   profileInfoJob.textContent = jobInput.value;
-  removePopupWindow(popupEditForm);
+  closePopup(popupEditForm);
 }
 
 //Подтягиваем лайки
@@ -90,12 +90,12 @@ function generateCard(item) {
   imagePopupPicture.src = item.src;
   imagePopupPicture.alt = item.textContent;
   imagePopupFigcaption.textContent = item.alt;
-  addPopupWindow(imagePopup);
+  openPopup(imagePopup);
 
   const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
 
   popupImageCloseButton.addEventListener('click', () => {
-    removePopupWindow(imagePopup);
+    closePopup(imagePopup);
   });
 
 }
@@ -124,40 +124,38 @@ function renderCard(container, itemLink, itemName) {
 };
 
 //Загрузка первых карточек
-function rendCardsElement(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    renderCard(elementList, arr[i].link, arr[i].name)
-  } return renderCard
-}
+initialCards.forEach(function (item) {
+  renderCard(elementList, item.link, item.name)
+})
+
 
 //Добавление новых карточек из формы
 function addCardElement(evt) {
   evt.preventDefault()
   renderCard(elementList, urlImage.value, nameImage.value)
-  removePopupWindow(elementAddForm)
-  ImageAddForm.reset()
+  closePopup(elementAddForm)
+  imageAddForm.reset()
 };
 
-rendCardsElement(initialCards);
 
 profileButton.addEventListener('click', () => {
-  addPopupWindow(popupEditForm)
+  openPopup(popupEditForm)
   nameInput.value = profileInfoName.textContent;
   jobInput.value = profileInfoJob.textContent;
 });
 
 addElementButton.addEventListener('click', () => {
-  addPopupWindow(elementAddForm)
+  openPopup(elementAddForm)
 });
 
 popupEditCloseButton.addEventListener('click', () => {
-  removePopupWindow(popupEditForm)
+  closePopup(popupEditForm)
 });
 
 popupAddCloseButton.addEventListener('click', () => {
-  removePopupWindow(elementAddForm)
+  closePopup(elementAddForm)
 });
 
 formProfile.addEventListener('submit', formSubmitHandler);
 
-ImageAddForm.addEventListener('submit', addCardElement);
+imageAddForm.addEventListener('submit', addCardElement);
