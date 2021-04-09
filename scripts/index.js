@@ -159,3 +159,34 @@ popupAddCloseButton.addEventListener('click', () => {
 formProfile.addEventListener('submit', formSubmitHandler);
 
 imageAddForm.addEventListener('submit', addCardElement);
+
+//Закрытие попапа на оверлей
+
+const popupOverlays = document.querySelectorAll('.popup');
+
+function closeOverlay(popupElement) {
+  popupElement.addEventListener('click', () => {
+    closePopup(popupElement)
+  });
+}
+
+function closeOverlayKey(popupElement) {
+  popupElement.addEventListener('keydown', function(event) {
+    console.log(event)
+  });
+}
+
+function stopClosePopup(popupElement) {
+  let popupOverlayContent = Array.prototype.slice.call(popupElement.childNodes);
+  popupOverlayContent.forEach(function (elem) {
+    elem.addEventListener('click', function (event) {
+      event.stopImmediatePropagation();
+    })
+  })
+}
+
+popupOverlays.forEach(function (item) {
+  closeOverlay(item);
+  stopClosePopup(item);
+  closeOverlayKey(item)
+})
