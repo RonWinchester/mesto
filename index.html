@@ -33,11 +33,15 @@
     <div class="popup" id="profileEditForm">
       <div class="popup__content">
         <button class="popup__close-button" type="button"></button>
-        <form class="form" name="profileEdit" id='profileForm'>
+        <form class="form" name="profileEdit" id='profileForm' novalidate autocomplete="off">
           <h2 class="form__name">Редактировать профиль</h2>
           <fieldset class="form__fildset">
-            <input class="form__input" type="text" id="nameInput" name="firstName" placeholder="Имя" required>
-            <input class="form__input" type="text" id="jobInput" name="JobProfile" placeholder="О себе">
+            <input class="form__input" type="text" id="nameInput" name="firstName" placeholder="Имя" minlength="2"
+              maxlength="40" required>
+            <span class="form__input-error" id="nameInput-error"></span>
+            <input class="form__input" type="text" id="jobInput" name="JobProfile" placeholder="О себе" minlength="2"
+              maxlength="200" required>
+            <span class="form__input-error" id="jobInput-error"></span>
             <button class="form__button" type="submit">Сохранить</button>
           </fieldset>
         </form>
@@ -47,14 +51,16 @@
     <div class="popup" id="elementAddForm">
       <div class="popup__content">
         <button class="popup__close-button" type="button"></button>
-        <form class="form" name="elementAddForm" id='ImageAddForm'>
+        <form class="form" name="elementAddForm" id='ImageAddForm' novalidate >
           <h2 class="form__name">Новое место</h2>
           <fieldset class="form__fildset">
             <input class="form__input" type="text" id="nameImage" name="nameImageElement" placeholder="Название"
+              minlength="2" maxlength="30" required>
+            <span class="form__input-error" id="nameImage-error"></span>
+            <input class="form__input" type="url" id="urlImage" name="urlImageElement" placeholder="Ссылка на картинку"
               required>
-            <input class="form__input" type="text" id="urlImage" name="urlImageElement" placeholder="Ссылка на картинку"
-              required>
-            <button class="form__button" type="submit">Создать</button>
+            <span class="form__input-error" id="urlImage-error"></span>
+            <button class="form__button" type="submit" >Создать</button>
           </fieldset>
         </form>
       </div>
@@ -63,7 +69,9 @@
     <div class="popup" id="imagePopup">
       <figure class="popup__figure">
         <button class="popup__close-button" type="button"></button>
-        <img class="popup__image-figure" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg" alt="ИмяИзображения">
+        <img class="popup__image-figure"
+          src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg"
+          alt="ИмяИзображения">
         <figcaption class="popup__figcaption">Камчатка</figcaption>
       </figure>
     </div>
@@ -84,6 +92,7 @@
   </template>
 
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>
