@@ -6,7 +6,7 @@ function showInputMessage(formElement, inputElement, errorMessage) {
 }
 
 //Скрыть сообщение об ошибке
-function hideInputError(formElement, inputElement, errorMessage) {
+function hideInputError(formElement, inputElement) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = '';
   errorElement.classList.remove('form__input-error_active');
@@ -23,9 +23,9 @@ function checkInputValidity(formElement, inputElement) {
   }
 }
 //Проверка на валидность каждого поля
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-  const button = formElement.querySelector('.form__button')
+function setEventListeners(formElement, inputSelector, submitButtonSelector) {
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+  const button = formElement.querySelector(submitButtonSelector)
 
   inputList.forEach(inputElement => {
     inputElement.addEventListener('input', (event) => {
@@ -47,9 +47,11 @@ function toggleButton(inputList, button) {
   }
 }
 
-function enebleValidation() {
-  const formList = Array.from(document.querySelectorAll('.form'));
-  formList.forEach(setEventListeners)
+function enebleValidation({ formSelector, inputSelector, submitButtonSelector }) {
+  const formList = Array.from(document.querySelectorAll(formSelector));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement, inputSelector, submitButtonSelector)
+  })
 }
 /*formSelector , inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass */
 /* enableValidation({
@@ -61,4 +63,8 @@ function enebleValidation() {
   errorClass: 'form__input-error_active'
 }); */
 
-enebleValidation()
+enebleValidation({
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__button',
+})
