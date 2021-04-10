@@ -91,6 +91,8 @@ function generateCard(item) {
   imagePopupPicture.alt = item.textContent;
   imagePopupFigcaption.textContent = item.alt;
   openPopup(imagePopup);
+  closeOverlay(imagePopup);
+  closeOverlayKey(imagePopup);
 
   const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
 
@@ -98,6 +100,7 @@ function generateCard(item) {
     closePopup(imagePopup);
   });
 
+  stopClosePopup(imagePopup);
 }
 
 // Инициализация карточки
@@ -112,7 +115,7 @@ function getCardElement(itemLink, itemName) {
   removeCards(cardsElement);
 
   imageElement.addEventListener('click', () => {
-    generateCard(imageElement)
+    generateCard(imageElement);
   });
 
   return cardsElement
@@ -142,10 +145,16 @@ profileButton.addEventListener('click', () => {
   openPopup(popupEditForm)
   nameInput.value = profileInfoName.textContent;
   jobInput.value = profileInfoJob.textContent;
-});
+  closeOverlay(popupEditForm);
+  closeOverlayKey(popupEditForm);
+  stopClosePopup(popupEditForm)
+  });
 
 addElementButton.addEventListener('click', () => {
-  openPopup(elementAddForm)
+  openPopup(elementAddForm);
+  closeOverlay(elementAddForm);
+  closeOverlayKey(elementAddForm);
+  stopClosePopup(elementAddForm)
 });
 
 popupEditCloseButton.addEventListener('click', () => {
@@ -162,8 +171,6 @@ imageAddForm.addEventListener('submit', addCardElement);
 
 //Закрытие попапа на оверлей
 
-const popupOverlays = document.querySelectorAll('.popup');
-
 function closeOverlay(popupElement) {
   popupElement.addEventListener('click', () => {
     closePopup(popupElement)
@@ -171,22 +178,18 @@ function closeOverlay(popupElement) {
 }
 
 function closeOverlayKey(popupElement) {
-  popupElement.addEventListener('keydown', function(event) {
-    console.log(event)
+  document.addEventListener('keydown', function(event) {
+    if(event.key == 'Escape'){
+      closePopup(popupElement)
+    }
   });
 }
 
-function stopClosePopup(popupElement) {
-  let popupOverlayContent = Array.prototype.slice.call(popupElement.childNodes);
+ function stopClosePopup(popupElement) {
+  const popupOverlayContent = Array.prototype.slice.call(popupElement.childNodes);
   popupOverlayContent.forEach(function (elem) {
     elem.addEventListener('click', function (event) {
       event.stopImmediatePropagation();
     })
   })
 }
-
-popupOverlays.forEach(function (item) {
-  closeOverlay(item);
-  stopClosePopup(item);
-  closeOverlayKey(item)
-})
