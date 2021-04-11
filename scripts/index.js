@@ -191,6 +191,7 @@ popupAddCloseButton.addEventListener('click', () => {
   closePopup(elementAddForm)
 });
 
+
 formProfile.addEventListener('submit', formSubmitHandler);
 
 imageAddForm.addEventListener('submit', addCardElement);

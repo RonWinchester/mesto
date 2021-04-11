@@ -1,29 +1,30 @@
 //Показать сообщение об ошибке
-function showInputMessage(formElement, inputElement, errorMessage, errorClass, inputErrorClass) {
+function showInputMessage(formElement, inputElement, errorMessage, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(errorClass);
-  inputElement.classList.add(inputErrorClass)
 }
 
 //Скрыть сообщение об ошибке
-function hideInputError(formElement, inputElement, errorClass, inputErrorClass) {
+function hideInputError(formElement, inputElement, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = '';
   errorElement.classList.remove(errorClass);
-  inputElement.classList.remove(inputErrorClass)
 }
 
 //Проверка на валидность
 function checkInputValidity(formElement, inputElement, errorClass, inputErrorClass) {
   const isValidity = inputElement.validity.valid;
   if (isValidity) {
-    hideInputError(formElement, inputElement, errorClass, inputErrorClass)
+    hideInputError(formElement, inputElement, errorClass);
+    inputElement.classList.remove(inputErrorClass)
   } else {
     const errorMessage = inputElement.validationMessage;
-    showInputMessage(formElement, inputElement, errorMessage, errorClass, inputErrorClass)
+    showInputMessage(formElement, inputElement, errorMessage, errorClass);
+    inputElement.classList.add(inputErrorClass)
   }
 }
+
 //Проверка на валидность каждого поля
 function setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
@@ -35,6 +36,7 @@ function setEventListeners(formElement, inputSelector, submitButtonSelector, ina
       toggleButton(inputList, button, inactiveButtonClass)
     });
   });
+
   addElementButton.addEventListener('click', function () {
     toggleButton(inputList, button, inactiveButtonClass)
   });
