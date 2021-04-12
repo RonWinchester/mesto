@@ -64,11 +64,13 @@ function enebleValidation({ formSelector, inputSelector, submitButtonSelector, i
   })
 }
 
-enebleValidation({
+const validationConfig = {
   formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_inactive',
   errorClass: 'form__input-error_active',
   inputErrorClass: 'form__input_type_error'
-})
+}
+
+enebleValidation(validationConfig);
