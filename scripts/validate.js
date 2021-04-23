@@ -74,3 +74,23 @@ const validationConfig = {
 }
 
 enebleValidation(validationConfig);
+
+/* class FormValidator {
+  constructor(validationConfig) {
+    this._formSelector = validationConfig.formSelector;
+    this._inputSelector = validationConfig.inputSelector;
+    this._submitButtonSelector = validationConfig.submitButtonSelector;
+    this._inactiveButtonClass = validationConfig.inactiveButtonClass;
+    this._errorClass = validationConfig.errorClass;
+    this._inputErrorClass = validationConfig.inputErrorClass;
+  }
+} */
+
+/* class FormValidator {
+  constructor(validationConfig = {}) {
+    this._validationConfig = validationConfig;
+  }
+}
+
+const validationForm = new FormValidator(validationConfig)
+console.log(validationForm._validationConfig.errorClass) */

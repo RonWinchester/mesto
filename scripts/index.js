@@ -172,3 +172,47 @@ imageAddForm.addEventListener('submit', addCardElement);
 setCloseByOverlayClickListener(imagePopup);
 setCloseByOverlayClickListener(elementAddForm);
 setCloseByOverlayClickListener(popupEditForm);
+
+
+//////////////
+class Card {
+  constructor(nameImage, urlImage, cardsTemplate) {
+    this._nameImage = "Байкал";
+    this._urlImage = "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg"
+    this._cardsTemplate = cardsTemplate;
+  }
+
+  _getTemplate() {
+    const cardsElement = this._cardsTemplate.querySelector('.element').cloneNode('true');
+    return cardsElement
+  }
+
+  _getCardElement() {
+    const cardsElement = this._getTemplate();
+    const imageElement = cardsElement.querySelector('.element__image');
+    imageElement.src = this._urlImage;
+    imageElement.alt = this._nameImage;
+    cardsElement.querySelector('.element__name').textContent = this._nameImage;
+    return cardsElement
+  }
+}
+const card = new Card(nameImage, urlImage, cardsTemplate);
+elementList.prepend(card._getCardElement());
+console.log(card)
+
+/* function getCardElement(itemLink, itemName) {
+  const cardsElement = cardsTemplate.querySelector('.element').cloneNode('true');
+  const imageElement = cardsElement.querySelector('.element__image');
+  imageElement.src = itemLink;
+  imageElement.alt = itemName;
+  cardsElement.querySelector('.element__name').textContent = itemName;
+
+  likeToggleCards(cardsElement);
+  removeCards(cardsElement);
+
+  imageElement.addEventListener('click', () => {
+    openImagePopup(imageElement);
+  });
+
+  return cardsElement
+} */
