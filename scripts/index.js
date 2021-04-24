@@ -111,11 +111,8 @@ function addCardElement(evt) {
 };
 
 //Подключение валидации
-const validation = new FormValidator(validationConfig, elementAddForm);
-const validation1 = new FormValidator(validationConfig, popupEditForm);
-
+const validation = new FormValidator(validationConfig);
 validation.enebleValidation()
-validation1.enebleValidation()
 
 profileButton.addEventListener('click', () => {
   openPopup(popupEditForm)
