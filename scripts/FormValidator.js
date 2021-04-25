@@ -1,7 +1,8 @@
-import { addElementButton, profileButton } from './index.js'
+import { addElementButton, profileButton } from './constants.js'
 export class FormValidator {
-  constructor(validationConfig) {
-    this._formSelector = validationConfig.formSelector;
+  constructor(validationConfig, formElement) {
+    this._formElement = formElement;
+
     this._inputSelector = validationConfig.inputSelector;
     this._submitButtonSelector = validationConfig.submitButtonSelector;
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
@@ -68,10 +69,19 @@ export class FormValidator {
     });
   }
 
-  enebleValidation() {
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-    formList.forEach((formElement) => {
-      this._setEventListeners(formElement)
+  //Скрыть старое сообщение об ошибке
+  hideError() {
+    const inputElements = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    inputElements.forEach(inputElement => {
+      const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+      errorElement.textContent = '';
+      errorElement.classList.remove(this._errorClass);
+      inputElement.classList.remove(this._inputErrorClass);
     })
   }
+
+  enableValidation() {
+    this._setEventListeners(this._formElement)
+  }
+
 }

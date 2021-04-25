@@ -1,13 +1,10 @@
-import { openPopup } from './index.js';
+import { openPopup } from './utils.js';
+import {imagePopup, imagePopupPicture, imagePopupFigcaption} from './constants.js'
 export class Card {
-  constructor(nameImage, urlImage, cardsTemplate, imagePopup, imagePopupPicture, imagePopupFigcaption) {
+  constructor(nameImage, urlImage, cardsTemplate) {
     this._nameImage = nameImage;
     this._urlImage = urlImage;
     this._cardsTemplate = cardsTemplate;
-
-    this._imagePopup = imagePopup;
-    this._imagePopupPicture = imagePopupPicture;
-    this._imagePopupFigcaption = imagePopupFigcaption;
   }
 
   //Клонируем Темплейт
@@ -33,10 +30,10 @@ export class Card {
 
   //ОТкрыть попап карточки
   _openImagePopup(item) {
-    this._imagePopupPicture.src = item.src;
-    this._imagePopupPicture.alt = item.textContent;
-    this._imagePopupFigcaption.textContent = item.alt;
-    openPopup(this._imagePopup);
+    imagePopupPicture.src = item.src;
+    imagePopupPicture.alt = item.textContent;
+    imagePopupFigcaption.textContent = item.alt;
+    openPopup(imagePopup);
   }
 
   //Инициализация карточки
