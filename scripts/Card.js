@@ -1,10 +1,9 @@
-import { openPopup } from './utils.js';
-import {imagePopup, imagePopupPicture, imagePopupFigcaption} from './constants.js'
 export class Card {
-  constructor(nameImage, urlImage, cardsTemplate) {
+  constructor(nameImage, urlImage, cardsTemplate, handleCardClick) {
     this._nameImage = nameImage;
     this._urlImage = urlImage;
     this._cardsTemplate = cardsTemplate;
+    this._handleCardClick = handleCardClick;
   }
 
   //Клонируем Темплейт
@@ -28,14 +27,6 @@ export class Card {
     })
   }
 
-  //ОТкрыть попап карточки
-  _openImagePopup(item) {
-    imagePopupPicture.src = item.src;
-    imagePopupPicture.alt = item.textContent;
-    imagePopupFigcaption.textContent = item.alt;
-    openPopup(imagePopup);
-  }
-
   //Инициализация карточки
   getCardElement() {
     const cardsElement = this._getTemplate();
@@ -48,7 +39,7 @@ export class Card {
     this._removeCards(cardsElement);
 
     imageElement.addEventListener('click', () => {
-      this._openImagePopup(imageElement);
+      this._handleCardClick(this._urlImage, this._nameImage)
     });
 
     return cardsElement
