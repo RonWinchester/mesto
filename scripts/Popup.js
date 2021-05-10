@@ -22,7 +22,6 @@ export class Popup {
     }
   }
 
-
   //Закрытие попапа на оверлей и крестик
   setEventListeners() {
     this._popupSelector.addEventListener('click', (event) => {
