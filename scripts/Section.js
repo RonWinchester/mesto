@@ -12,7 +12,7 @@ export class Section {
   };
 
   addItem(data) {
-    this._renderer(this._containerSelector, data.urlImageElement, data.nameImageElement)
+    this._renderer(this._containerSelector, data.urlImageElement, data.nameImageElement);
   }
 }
 
