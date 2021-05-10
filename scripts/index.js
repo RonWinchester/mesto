@@ -20,20 +20,20 @@ import {
   initialCards,
 } from './constants.js';
 
-import { Popup } from './Popup.js';
-const PopupAddImage = new Popup('#elementAddForm');
-
+import { Section } from './Section.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
-import { UserInfo} from './UserInfo.js';
+import { UserInfo } from './UserInfo.js';
 
 const popupWithImage = new PopupWithImage('#imagePopup');
 const editProfilePopup = new PopupWithForm('#profileEditForm', formEditProfileSubmitHandler);
 const addCardPopup = new PopupWithForm('#elementAddForm', addCardElement);
-const userInfoProfile = new UserInfo({name:'.profile-info__name', job: '.profile-info__job'});
+const userInfoProfile = new UserInfo({ name: '.profile-info__name', job: '.profile-info__job' });
+const initialСards = new Section({ items: initialCards, renderer: renderCard }, elementList);
+const addedCards = new Section({ items: {}, renderer: renderCard }, elementList);
 
-editProfilePopup.setEventListeners();
-addCardPopup.setEventListeners();
+//Загрузка первых карточек
+initialСards.rendererElements()
 
 // Отправка формы редактирования профиля
 function formEditProfileSubmitHandler(data) {
@@ -57,15 +57,10 @@ function renderCard(container, itemLink, itemName) {
   container.prepend(createCard(itemName, itemLink, cardsTemplate));
 };
 
-//Загрузка первых карточек
-initialCards.forEach(function (item) {
-  renderCard(elementList, item.link, item.name)
-})
-
 
 //Добавление новых карточек из формы
-function addCardElement() {
-  renderCard(elementList, urlImage.value, nameImage.value);
+function addCardElement(data) {
+  addedCards.addItem(data)
   addCardPopup.close()
   imageAddForm.reset();
 };
@@ -74,17 +69,12 @@ function addCardElement() {
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
 const editProfileFormValidator = new FormValidator(validationConfig, formProfile);
 addCardFormValidator.enableValidation();
-editProfileFormValidator.enableValidation()
+editProfileFormValidator.enableValidation();
 
-//Закрытие на крестик
+//Закрытие на крестик и работа формы
 editProfilePopup.setEventListeners();
-PopupAddImage.setEventListeners();  //проверь закррытие на "крестик"? Дублирование методов
+addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
-
-//Закрытие на оверлей и крестик
-editProfilePopup.setCloseByOverlayClickListener();
-addCardPopup.setCloseByOverlayClickListener();
-popupWithImage.setCloseByOverlayClickListener();
 
 
 profileButton.addEventListener('click', () => {

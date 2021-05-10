@@ -22,15 +22,9 @@ export class Popup {
     }
   }
 
-  //Слушатель клика иконке закрытия
-  setEventListeners() {
-    this._popupSelector.querySelector('.popup__close-button').addEventListener('click', () => {
-      this.close()
-    });
-  }
 
   //Закрытие попапа на оверлей и крестик
-  setCloseByOverlayClickListener() {
+  setEventListeners() {
     this._popupSelector.addEventListener('click', (event) => {
       if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
         this.close();

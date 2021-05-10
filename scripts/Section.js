@@ -1,33 +1,18 @@
 export class Section {
-  constructor({items, renderer}, containerSelector) {
+  constructor({ items, renderer }, containerSelector) {
     this._items = items;
     this._renderer = renderer;
     this._containerSelector = containerSelector;
   }
 
   rendererElements() {
-    this._items.forEach(item => {
-      item.this._renderer()
+    this._items.forEach((item) => {
+      this._renderer(this._containerSelector, item.link, item.name)
     });
   };
 
-  addItem() {
-
+  addItem(data) {
+    this._renderer(this._containerSelector, data.urlImageElement, data.nameImageElement)
   }
 }
-/*
-//Создание карточки
-function createCard(itemName, itemLink, cardsTemplate) {
-  const card = new Card(itemName, itemLink, cardsTemplate,  //cardImageClickHandler );
-  return card.getCardElement();
-}
 
-//Добавление карточки в контейнер
-function renderCard(container, itemLink, itemName) {
-  container.prepend(createCard(itemName, itemLink, cardsTemplate));
-};
-
-//Загрузка первых карточек
-initialCards.forEach(function (item) {
-  renderCard(elementList, item.link, item.name)
-}) */
