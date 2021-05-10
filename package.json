@@ -1,0 +1,40 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Сервис Mesto - проект, в котором можно делиться изображениями.\r ### Этапы работы\r На данном этапе готова верстка страницы. Адаптивная версия. Разрабатывается функционал по наполнению сайта.\r ### Реализовано\r 1. Редактирования профиля\r 2. Добавление фотографий\r 3. Удаление фотографий\r 4. Работа лайков\r 5. Открытие фотографий\r 6. Настроена валидация форм\r 7. Закрытие попапа на оверлей и нажатию esc\r ### Надо доделать\r 1. Редактирование аватарки профиля\r 2. Бекенд часть\r ### Языки\r 1. HTML\r 2. CSS\r 3. JS\r ### Ссылка на проект https://ronwinchester.github.io/mesto/",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonWinchester/mesto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RonWinchester/mesto/issues"
+  },
+  "homepage": "https://github.com/RonWinchester/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^5.2.4",
+    "cssnano": "^5.0.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.6.0",
+    "postcss-loader": "^5.2.0",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "core-js": "^3.12.1"
+  }
+}

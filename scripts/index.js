@@ -1,4 +1,5 @@
 import { Card } from './Card.js';
+import '../pages/index.css';
 import { FormValidator } from './FormValidator.js';
 import {
   validationConfig,
