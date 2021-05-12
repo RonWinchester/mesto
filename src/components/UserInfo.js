@@ -4,9 +4,12 @@ export class UserInfo {
     this._jobProfile = document.querySelector(job);
   }
 
-  getUserInfo(nameInput, jobInput) {
-    nameInput.value = this._firstName.textContent;
-    jobInput.value = this._jobProfile.textContent;
+  getUserInfo() {
+    const userProfileData = {
+      name: this._firstName.textContent,
+      job: this._jobProfile.textContent
+    }
+    return userProfileData
   }
 
   setUserInfo({ firstName, JobProfile }) {
