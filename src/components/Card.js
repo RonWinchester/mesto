@@ -29,19 +29,19 @@ export class Card {
 
   //Инициализация карточки
   getCardElement() {
-    const cardsElement = this._getTemplate();
-    const imageElement = cardsElement.querySelector('.element__image');
-    imageElement.src = this._urlImage;
-    imageElement.alt = this._nameImage;
-    cardsElement.querySelector('.element__name').textContent = this._nameImage;
+    this._cardsElement = this._getTemplate();
+    this._imageElement = this._cardsElement.querySelector('.element__image');
+    this._imageElement.src = this._urlImage;
+    this._imageElement.alt = this._nameImage;
+    this._cardsElement.querySelector('.element__name').textContent = this._nameImage;
 
-    this._likeToggleCards(cardsElement);
-    this._removeCards(cardsElement);
+    this._likeToggleCards(this._cardsElement);
+    this._removeCards(this._cardsElement);
 
-    imageElement.addEventListener('click', () => {
+    this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._urlImage, this._nameImage)
     });
 
-    return cardsElement
+    return this._cardsElement
   }
 }

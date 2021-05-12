@@ -1,4 +1,4 @@
-import { addElementButton, profileButton } from './constants.js'
+import { addElementButton, profileButton } from './utils/constants.js'
 export class FormValidator {
   constructor(validationConfig, formElement) {
     this._formElement = formElement;

@@ -12,7 +12,7 @@ import {
   cardsTemplate,
   imageAddForm,
   initialCards,
-} from './constants.js';
+} from './utils/constants.js';
 
 import { Section } from './Section.js';
 import { PopupWithImage } from './PopupWithImage.js';
@@ -22,13 +22,12 @@ import { UserInfo } from './UserInfo.js';
 const addedCards = new Section({ items: {}, renderer: () => { } }, elementList);
 const initialСards = new Section({
   items: initialCards,
-  renderer: (item) => {
-    const card = new Card(item.name, item.link, cardsTemplate, popupWithImage.open);
-    const cardElement = card.getCardElement();
-
+  renderer: (data) => {
+    const cardElement = createCard(data)
     initialСards.addItem(cardElement)
   }
 }, elementList);
+
 
 const popupWithImage = new PopupWithImage('#imagePopup');
 const editProfilePopup = new PopupWithForm('#profileEditForm',
@@ -47,6 +46,12 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
   });
 
 const userInfoProfile = new UserInfo({ name: '.profile-info__name', job: '.profile-info__job' });
+
+//Инициализация карточки
+function createCard(data) {
+  const card = new Card(data.name, data.link, cardsTemplate, popupWithImage.open);
+  return card.getCardElement();
+};
 
 //Загрузка первых карточек
 initialСards.rendererElements()
