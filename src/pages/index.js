@@ -22,7 +22,7 @@ import { UserInfo } from '../components/UserInfo.js';
 const initialСards = new Section({
   items: initialCards,
   renderer: (data) => {
-    const cardElement = createCard(data.name, data.link)
+    const cardElement = createCard(data)
     initialСards.addItem(cardElement)
   }
 }, elementList);
@@ -36,7 +36,7 @@ const editProfilePopup = new PopupWithForm('#profileEditForm',
   });
 const addCardPopup = new PopupWithForm('#elementAddForm',
   function handleFormSubmit(data) {
-    const cardElement = createCard(data.nameImageElement, data.urlImageElement)
+    const cardElement = createCard({name:data.nameImageElement, link:data.urlImageElement})
     imageAddForm.reset();
     addCardPopup.close()
     initialСards.addItem(cardElement)
@@ -45,13 +45,14 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
 const userInfoProfile = new UserInfo({ name: '.profile-info__name', job: '.profile-info__job' });
 
 //Инициализация карточки
-function createCard(dataName, dataLink) {
-  const card = new Card(dataName, dataLink, cardsTemplate, popupWithImage.open);
+function createCard(cardData) {
+  const card = new Card(cardData, cardsTemplate, popupWithImage.open);
   return card.getCardElement();
 };
 
 //Загрузка первых карточек
 initialСards.rendererElements()
+/* initialСards.renderItems(initialCards) */ // Метод, который принимает карточки как параметр
 
 //Подключение валидации
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
