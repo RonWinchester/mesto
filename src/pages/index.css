@@ -22,6 +22,8 @@
 @import url(../blocks/element/__button-remove/element__button-remove.css);
 @import url(../blocks/element/__button-heart/element__button-heart.css);
 @import url(../blocks/element/__button-heart/_active/element__button-heart_active.css);
+@import url(../blocks/element/__like-number/element__like-number.css);
+@import url(../blocks/element/__heart-container/element__heart-container.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 @import url(../blocks/popup/popup.css);

@@ -27,7 +27,6 @@ const initialСards = new Section({
   }
 }, elementList);
 
-
 const popupWithImage = new PopupWithImage('#imagePopup');
 const editProfilePopup = new PopupWithForm('#profileEditForm',
   function formEditProfileSubmitHandler(data) {

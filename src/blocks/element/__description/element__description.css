@@ -1,6 +1,6 @@
 .element__description {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   box-sizing: border-box;
   max-width: calc(100% - 21px - 15px);
   margin: 0 auto;
