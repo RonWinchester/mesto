@@ -5,16 +5,16 @@ export class Section {
     this._containerSelector = containerSelector;
   }
 
-  rendererElements() {
+/*   rendererElements() {
     this._items.forEach(item => this._renderer(item));
-  };
+  }; */
 
-/*   renderItems(items) { //метод, принмающий карточки как параметр
+  renderItems(items) {
     items.forEach(item => this._renderer(item));
-  } */
+  }
 
-  addItem(element) {
-    this._containerSelector.prepend(element);
+  addItem(element, isPrepend) {
+    isPrepend ? this._containerSelector.prepend(element) : this._containerSelector.append(element);
   };
 }
 

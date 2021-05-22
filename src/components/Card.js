@@ -1,8 +1,9 @@
 export class Card {
-  constructor({name, link}, cardsTemplate, handleCardClick) {
+  constructor({ name, link, likes }, cardsTemplate, handleCardClick) {
     this._nameImage = name;
     this._urlImage = link;
-    this._cardsTemplate = cardsTemplate;
+    this._likes = likes,
+      this._cardsTemplate = cardsTemplate;
     this._handleCardClick = handleCardClick;
   }
 
@@ -19,6 +20,7 @@ export class Card {
     })
   };
 
+
   //Удаление карточки
   _removeCards(element) {
     const buttonRemove = element.querySelector('.element__button-remove');
@@ -27,13 +29,26 @@ export class Card {
     })
   }
 
+  //Удаление карточки
+  /*   _removeCards(element) {
+      const buttonRemove = document.querySelector('#cardRemoveButton');
+      buttonRemove.addEventListener('click', () => {
+        element.remove();
+      }) */
+
   //Инициализация карточки
-  getCardElement() {
+  getCardElement(/* openPopup */) {
     this._cardsElement = this._getTemplate();
     this._imageElement = this._cardsElement.querySelector('.element__image');
     this._imageElement.src = this._urlImage;
     this._imageElement.alt = this._nameImage;
     this._cardsElement.querySelector('.element__name').textContent = this._nameImage;
+    this._cardsElement.querySelector('.element__like-number').textContent = this._likes.length;
+    const buttonRemove = this._cardsElement.querySelector('.element__button-remove');
+
+    /* buttonRemove.addEventListener('click', () => {
+      openPopup()
+    }); */
 
     this._likeToggleCards(this._cardsElement);
     this._removeCards(this._cardsElement);
