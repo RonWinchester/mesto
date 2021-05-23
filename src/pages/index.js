@@ -20,16 +20,33 @@ import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 import { Popup } from '../components/Popup.js';
 
-const confirmDeletionPopup = new Popup('#deletionCardForm');
-confirmDeletionPopup.setEventListeners();
-
-const userInfoProfile = new UserInfo({ name: '.profile-info__name', about: '.profile-info__job', avatar: '.profile__avatar' });
-const popupWithImage = new PopupWithImage('#imagePopup');
+//Подключение к Api
 const api = new Api({
   adress: "https://mesto.nomoreparties.co/v1/",
   token: "30104c84-de4d-41a2-bc56-a72d831bec2a",
   groupId: 'cohort-24'
 })
+
+const userInfoProfile = new UserInfo({ name: '.profile-info__name', about: '.profile-info__job', avatar: '.profile__avatar' });
+let userData = null;
+
+//Инициализация карточки
+function createCard(cardData) {
+  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, cardDeleteClick,/* handleDeleteCard */);
+  return card.getCardElement();
+};
+
+//Загрузка данных профиля
+api.getUserInformation()
+  .then(result => {
+    userInfoProfile.setUserInfo(result);
+    userInfoProfile.setUserAvatar(result);
+    userData = result;
+  })
+  .catch(err => {
+    console.log(`Ошибка при получении данных профиля: ${err}`)
+  })
+
 
 const initialСards = new Section({
   items: {},
@@ -39,26 +56,22 @@ const initialСards = new Section({
   }
 }, elementList);
 
-
 //Загрузка первых карточек
-api.getCards().then(result => {
-  initialСards.renderItems(result)
-}).catch(err => { console.log(`Ошибка при загрузке карточек: ${err}`) });
-
-//Загрузка данных профиля
-api.getUserInformation()
+api.getCards()
   .then(result => {
-    userInfoProfile.setUserInfo(result);
-    userInfoProfile.setUserAvatar(result)
+    initialСards.renderItems(result)
   })
-  .catch(err => { console.log(`Ошибка при получении данных профиля: ${err}`) })
+  .catch(err => {
+    console.log(`Ошибка при загрузке карточек: ${err}`)
+  }
+  );
 
 //Попап редактировния профиля
 const editProfilePopup = new PopupWithForm('#profileEditForm',
   function formEditProfileSubmitHandler(data) {
     api.patchUserInformation(data)
       .then(result => {
-        userInfoProfile.setUserInfo(data)
+        userInfoProfile.setUserInfo(result);
       })
       .catch(err => { console.log(`Ошибка при отправке данных профиля: ${err}`) })
     editProfilePopup.close()
@@ -77,11 +90,35 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
     addCardPopup.close()
   });
 
-//Инициализация карточки
-function createCard(cardData) {
-  const card = new Card(cardData, cardsTemplate, popupWithImage.open);
-  return card.getCardElement(/* confirmDeletionPopup.open */); //Передал функцию для открытия попапа удаления - надо исправить
-};
+//Работа с попапом удаления карточки
+const cardDeletePopup = new Popup('#deletionCardForm')
+cardDeletePopup.setEventListeners();
+
+let cardToRemove = {};
+const handleDeleteIconClick = () => {
+  cardDeletePopup.open();
+}
+
+const cardDeleteClick = () => {
+  cardDeletePopup.close();
+}
+
+
+
+const popupWithImage = new PopupWithImage('#imagePopup');
+
+
+
+
+
+
+
+
+/* function handleDeleteCard(removeCard, getId) {
+  api.deleteCard(getId)
+    .then(() => { removeCard }).catch(err => { console.log(`Ошибка при отправке карточки: ${err}`) })
+} */
+
 
 //Подключение валидации
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
@@ -108,4 +145,3 @@ addElementButton.addEventListener('click', () => {
   addCardPopup.open()
   addCardFormValidator.hideError()
 });
-

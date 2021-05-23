@@ -1,10 +1,18 @@
 export class Card {
-  constructor({ name, link, likes }, cardsTemplate, handleCardClick) {
+  constructor({ name, link, likes, _id/* , owner */ }, cardsTemplate, handleCardClick, deletedPopup, cardDeleteClick, /*handleDeleteCard */) {
     this._nameImage = name;
     this._urlImage = link;
-    this._likes = likes,
-      this._cardsTemplate = cardsTemplate;
+    this._likes = likes;
+    this._id = _id;
+
+    /*  this._owner = owner._id; */
+
+    this._cardsTemplate = cardsTemplate;
     this._handleCardClick = handleCardClick;
+
+    this._handleDeleteIconClick = deletedPopup;
+    this._cardDeleteClick = cardDeleteClick;/*
+    this._handleDeleteCard = handleDeleteCard; */
   }
 
   //Клонируем Темплейт
@@ -14,44 +22,48 @@ export class Card {
   }
 
   //Переключатель лайков
-  _likeToggleCards(element) {
-    element.querySelector('.element__button-heart').addEventListener('click', function (evt) {
+  _likeToggleCards() {
+    this._cardsElement.querySelector('.element__button-heart').addEventListener('click', function (evt) {
       evt.target.classList.toggle('element__button-heart_active');
     })
   };
-
+  /*
+    getID() {
+      return this._id
+    } */
 
   //Удаление карточки
-  _removeCards(element) {
-    const buttonRemove = element.querySelector('.element__button-remove');
-    buttonRemove.addEventListener('click', () => {
-      element.remove();
+  _removeCards() {
+    this._cardsElement.remove();
+  }
+
+  //Слушатели для попапа удаления
+  _setEventListeners() {
+    this._buttonRemove.addEventListener('click', () => {
+      this._handleDeleteIconClick();
+      this._cardRemovePopup = document.querySelector('.popup_opened');
+      this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
+      this._cardRemoveButton.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this._removeCards();
+        this._cardDeleteClick();
+      })
     })
   }
 
-  //Удаление карточки
-  /*   _removeCards(element) {
-      const buttonRemove = document.querySelector('#cardRemoveButton');
-      buttonRemove.addEventListener('click', () => {
-        element.remove();
-      }) */
 
   //Инициализация карточки
-  getCardElement(/* openPopup */) {
+  getCardElement() {
     this._cardsElement = this._getTemplate();
     this._imageElement = this._cardsElement.querySelector('.element__image');
     this._imageElement.src = this._urlImage;
     this._imageElement.alt = this._nameImage;
     this._cardsElement.querySelector('.element__name').textContent = this._nameImage;
     this._cardsElement.querySelector('.element__like-number').textContent = this._likes.length;
-    const buttonRemove = this._cardsElement.querySelector('.element__button-remove');
+    this._buttonRemove = this._cardsElement.querySelector('.element__button-remove');
 
-    /* buttonRemove.addEventListener('click', () => {
-      openPopup()
-    }); */
-
-    this._likeToggleCards(this._cardsElement);
-    this._removeCards(this._cardsElement);
+    this._likeToggleCards()
+    this._setEventListeners();
 
     this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._urlImage, this._nameImage)

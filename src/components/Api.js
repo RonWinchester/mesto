@@ -29,7 +29,7 @@ export class Api {
       })
     })
       .then(result => {
-        result.ok ? result.json() : Promise.reject(`Ошибка: ${res.status}`)
+        return result.ok ? result.json() : Promise.reject(`Ошибка: ${res.status}`)
       })
   }
 
@@ -44,7 +44,7 @@ export class Api {
       })
   }
 
-  postCard({name, link}) {
+  postCard({ name, link }) {
     return fetch(`${this._adress}${this._groupId}/cards/`, {
       method: 'POST',
       headers: {
@@ -55,6 +55,42 @@ export class Api {
         link: link,
         name: name
       })
+    })
+      .then(res => {
+        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+      })
+  }
+
+  putLikeCard(data) {
+    return fetch(`${this._adress}${this._groupId}/cards/likes/${data._id}`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+      })
+  }
+
+  deleteLikeCard(id) {
+    return fetch(`${this._adress}${this._groupId}/cards/likes/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => this._fixPromise(res))
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._adress}${this._groupId}/cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+      }
     })
       .then(res => {
         return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
