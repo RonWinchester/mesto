@@ -32,7 +32,7 @@ let userData = null;
 
 //Инициализация карточки
 function createCard(cardData) {
-  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, cardDeleteClick,/* handleDeleteCard */);
+  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard /*  handleDeleteCard */);
   return card.getCardElement();
 };
 
@@ -94,25 +94,23 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
 const cardDeletePopup = new Popup('#deletionCardForm')
 cardDeletePopup.setEventListeners();
 
-let cardToRemove = {};
+/* let cardToRemove = {}; */
 const handleDeleteIconClick = () => {
   cardDeletePopup.open();
 }
 
-const cardDeleteClick = () => {
-  cardDeletePopup.close();
+
+const deleteCard = (formRemove, removeCard) => {
+  formRemove.addEventListener('submit', (event) => {
+    event.preventDefault();
+    removeCard();
+    cardDeletePopup.close();
+  })
 }
 
 
 
 const popupWithImage = new PopupWithImage('#imagePopup');
-
-
-
-
-
-
-
 
 /* function handleDeleteCard(removeCard, getId) {
   api.deleteCard(getId)

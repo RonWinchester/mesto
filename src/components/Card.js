@@ -1,5 +1,5 @@
 export class Card {
-  constructor({ name, link, likes, _id/* , owner */ }, cardsTemplate, handleCardClick, deletedPopup, cardDeleteClick, /*handleDeleteCard */) {
+  constructor({ name, link, likes, _id/* , owner */ }, cardsTemplate, handleCardClick, deletedPopup, deleteCard /*handleDeleteCard */) {
     this._nameImage = name;
     this._urlImage = link;
     this._likes = likes;
@@ -11,7 +11,8 @@ export class Card {
     this._handleCardClick = handleCardClick;
 
     this._handleDeleteIconClick = deletedPopup;
-    this._cardDeleteClick = cardDeleteClick;/*
+    this._deleteCard = deleteCard;
+    /*
     this._handleDeleteCard = handleDeleteCard; */
   }
 
@@ -33,21 +34,17 @@ export class Card {
     } */
 
   //Удаление карточки
-  _removeCards() {
-    this._cardsElement.remove();
+  _removeCards = () => {
+     this._cardsElement.remove();
   }
 
   //Слушатели для попапа удаления
-  _setEventListeners() {
+  _setEventListeners()  {
     this._buttonRemove.addEventListener('click', () => {
       this._handleDeleteIconClick();
       this._cardRemovePopup = document.querySelector('.popup_opened');
       this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
-      this._cardRemoveButton.addEventListener('submit', (event) => {
-        event.preventDefault();
-        this._removeCards();
-        this._cardDeleteClick();
-      })
+      this._deleteCard(this._cardRemoveButton, this._removeCards);
     })
   }
 

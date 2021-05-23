@@ -82,7 +82,9 @@ export class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => this._fixPromise(res))
+    .then(res => {
+      return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+    })
   }
 
   deleteCard(id) {
