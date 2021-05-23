@@ -42,7 +42,7 @@ api.getUserInformation()
     console.log(`Ошибка при получении данных профиля: ${err}`)
   })
 
-  //Инициализация карточки
+//Инициализация карточки
 function createCard(cardData) {
   const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard, removeIcon, userData /*  handleDeleteCard */);
   return card.getCardElement();
@@ -95,33 +95,29 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
 const cardDeletePopup = new Popup('#deletionCardForm')
 cardDeletePopup.setEventListeners();
 
-/* let cardToRemove = {}; */
 const handleDeleteIconClick = () => {
   cardDeletePopup.open();
 }
 
 
-const deleteCard = (formRemove, removeCard) => {
-  formRemove.addEventListener('submit', (event) => {
-    event.preventDefault();
-    removeCard();
-    cardDeletePopup.close();
-  })
+const deleteCard = (formRemove, removeCard, cardId) => {
+  api.deleteCards(cardId).then(res => {
+    formRemove.addEventListener('submit', (event) => {
+      event.preventDefault();
+      removeCard();
+      cardDeletePopup.close();
+    })
+  }).catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
 }
 
-  // Удаление иконки у чужих карточек
-  const removeIcon = (cardId, userId, buttonRemove) => {
-    if(cardId !== userId) {
-      buttonRemove.remove()
-    }
+// Удаление иконки у чужих карточек
+const removeIcon = (cardId, userId, buttonRemove) => {
+  if (cardId !== userId) {
+    buttonRemove.remove()
   }
+}
 
 const popupWithImage = new PopupWithImage('#imagePopup');
-
-/* function handleDeleteCard(removeCard, getId) {
-  api.deleteCard(getId)
-    .then(() => { removeCard }).catch(err => { console.log(`Ошибка при отправке карточки: ${err}`) })
-} */
 
 
 //Подключение валидации

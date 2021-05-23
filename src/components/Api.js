@@ -87,11 +87,12 @@ export class Api {
     })
   }
 
-  deleteCard(id) {
+  deleteCards(id) {
     return fetch(`${this._adress}${this._groupId}/cards/${id}`, {
       method: 'DELETE',
       headers: {
         authorization: this._token,
+        'Content-Type': 'application/json'
       }
     })
       .then(res => {
