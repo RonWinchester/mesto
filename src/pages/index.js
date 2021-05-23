@@ -30,11 +30,6 @@ const api = new Api({
 const userInfoProfile = new UserInfo({ name: '.profile-info__name', about: '.profile-info__job', avatar: '.profile__avatar' });
 let userData = null;
 
-//Инициализация карточки
-function createCard(cardData) {
-  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard /*  handleDeleteCard */);
-  return card.getCardElement();
-};
 
 //Загрузка данных профиля
 api.getUserInformation()
@@ -46,6 +41,12 @@ api.getUserInformation()
   .catch(err => {
     console.log(`Ошибка при получении данных профиля: ${err}`)
   })
+
+  //Инициализация карточки
+function createCard(cardData) {
+  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard, removeIcon, userData /*  handleDeleteCard */);
+  return card.getCardElement();
+};
 
 
 const initialСards = new Section({
@@ -108,7 +109,12 @@ const deleteCard = (formRemove, removeCard) => {
   })
 }
 
-
+  // Удаление иконки у чужих карточек
+  const removeIcon = (cardId, userId, buttonRemove) => {
+    if(cardId !== userId) {
+      buttonRemove.remove()
+    }
+  }
 
 const popupWithImage = new PopupWithImage('#imagePopup');
 

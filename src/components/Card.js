@@ -1,10 +1,10 @@
 export class Card {
-  constructor({ name, link, likes, _id/* , owner */ }, cardsTemplate, handleCardClick, deletedPopup, deleteCard /*handleDeleteCard */) {
+  constructor({ name, link, likes, owner/* , owner */ }, cardsTemplate, handleCardClick, deletedPopup, deleteCard, removeIcon, userData /*handleDeleteCard */) {
     this._nameImage = name;
     this._urlImage = link;
     this._likes = likes;
-    this._id = _id;
-
+    this._id = owner._id;
+    this._userId = userData._id
     /*  this._owner = owner._id; */
 
     this._cardsTemplate = cardsTemplate;
@@ -12,6 +12,7 @@ export class Card {
 
     this._handleDeleteIconClick = deletedPopup;
     this._deleteCard = deleteCard;
+    this._removeIcon = removeIcon;
     /*
     this._handleDeleteCard = handleDeleteCard; */
   }
@@ -48,7 +49,6 @@ export class Card {
     })
   }
 
-
   //Инициализация карточки
   getCardElement() {
     this._cardsElement = this._getTemplate();
@@ -59,6 +59,7 @@ export class Card {
     this._cardsElement.querySelector('.element__like-number').textContent = this._likes.length;
     this._buttonRemove = this._cardsElement.querySelector('.element__button-remove');
 
+    this._removeIcon(this._id, this._userId, this._buttonRemove)
     this._likeToggleCards()
     this._setEventListeners();
 
