@@ -61,8 +61,8 @@ export class Api {
       })
   }
 
-  putLikeCard(data) {
-    return fetch(`${this._adress}${this._groupId}/cards/likes/${data._id}`, {
+  putLikeCard(id) {
+    return fetch(`${this._adress}${this._groupId}/cards/likes/${id}`, {
       method: 'PUT',
       headers: {
         authorization: this._token,

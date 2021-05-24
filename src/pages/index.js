@@ -44,7 +44,7 @@ api.getUserInformation()
 
 //Инициализация карточки
 function createCard(cardData) {
-  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard, removeIcon, userData /*  handleDeleteCard */);
+  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard, removeIcon, userData,  putLike, deleteLike, loadLike);
   return card.getCardElement();
 };
 
@@ -99,7 +99,6 @@ const handleDeleteIconClick = () => {
   cardDeletePopup.open();
 }
 
-
 const deleteCard = (formRemove, removeCard, cardId) => {
   api.deleteCards(cardId).then(res => {
     formRemove.addEventListener('submit', (event) => {
@@ -110,6 +109,15 @@ const deleteCard = (formRemove, removeCard, cardId) => {
   }).catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
 }
 
+//загрузить лайки
+const loadLike = (cardLike, myId, elementButton,classActive) => {
+  cardLike.forEach(element => {
+    if(element._id === myId) {
+      elementButton.classList.add(classActive)
+    }
+  })
+}
+
 // Удаление иконки у чужих карточек
 const removeIcon = (cardId, userId, buttonRemove) => {
   if (cardId !== userId) {
@@ -117,8 +125,25 @@ const removeIcon = (cardId, userId, buttonRemove) => {
   }
 }
 
-const popupWithImage = new PopupWithImage('#imagePopup');
+//Поставить лайк
+const putLike = (cardId,/* likeToggleCard, */ likeNumber) => {
+  api.putLikeCard(cardId)
+  .then(res => {
+    likeNumber.textContent = res.likes.length
+    /* likeToggleCard() */
+  }).catch(err => { console.log(`Ошибка при отправке лайка карточки: ${err}`) })
+};
 
+//Убрать лайк
+const deleteLike = (cardId,/* likeToggleCard */likeNumber) => {
+  api.deleteLikeCard(cardId)
+  .then(res => {
+    likeNumber.textContent = res.likes.length
+    /* likeToggleCard() */
+  }).catch(err => { console.log(`Ошибка при удалении лайка карточки: ${err}`) })
+}
+
+const popupWithImage = new PopupWithImage('#imagePopup');
 
 //Подключение валидации
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
