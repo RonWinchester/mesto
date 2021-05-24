@@ -11,6 +11,8 @@ import {
   elementList,
   cardsTemplate,
   imageAddForm,
+  avatarProfile,
+  editAvatarImage
 } from '../components/utils/constants.js';
 
 import { Section } from '../components/Section.js';
@@ -44,7 +46,17 @@ api.getUserInformation()
 
 //Инициализация карточки
 function createCard(cardData) {
-  const card = new Card(cardData, cardsTemplate, popupWithImage.open, handleDeleteIconClick, deleteCard, removeIcon, userData,  putLike, deleteLike, loadLike);
+  const card = new Card(cardData,
+    cardsTemplate,
+    popupWithImage.open,
+    handleDeleteIconClick,
+    deleteCard,
+    removeIcon,
+    userData,
+    putLike,
+    deleteLike,
+    loadLike
+  );
   return card.getCardElement();
 };
 
@@ -78,6 +90,17 @@ const editProfilePopup = new PopupWithForm('#profileEditForm',
     editProfilePopup.close()
   });
 
+//Попап редактирования аватара
+const editAvatar = new PopupWithForm('#avatarEditForm',
+  function formAvatarSubmitHandler(data) {
+    api.pathcAvatar(data.urlAvatarElement)
+      .then(res => {
+        userInfoProfile.setUserAvatar({ avatar: res.avatar })
+      }).catch(err => { console.log(`Ошибка при редактировании аватара профиля: ${err}`) })
+    avatarProfile.reset();
+    editAvatar.close()
+  })
+
 //Попап добавления карточки
 const addCardPopup = new PopupWithForm('#elementAddForm',
   function handleFormSubmit(data) {
@@ -99,6 +122,7 @@ const handleDeleteIconClick = () => {
   cardDeletePopup.open();
 }
 
+//Удалить карточки
 const deleteCard = (formRemove, removeCard, cardId) => {
   api.deleteCards(cardId).then(res => {
     formRemove.addEventListener('submit', (event) => {
@@ -110,9 +134,9 @@ const deleteCard = (formRemove, removeCard, cardId) => {
 }
 
 //загрузить лайки
-const loadLike = (cardLike, myId, elementButton,classActive) => {
+const loadLike = (cardLike, myId, elementButton, classActive) => {
   cardLike.forEach(element => {
-    if(element._id === myId) {
+    if (element._id === myId) {
       elementButton.classList.add(classActive)
     }
   })
@@ -126,21 +150,19 @@ const removeIcon = (cardId, userId, buttonRemove) => {
 }
 
 //Поставить лайк
-const putLike = (cardId,/* likeToggleCard, */ likeNumber) => {
+const putLike = (cardId, likeNumber) => {
   api.putLikeCard(cardId)
-  .then(res => {
-    likeNumber.textContent = res.likes.length
-    /* likeToggleCard() */
-  }).catch(err => { console.log(`Ошибка при отправке лайка карточки: ${err}`) })
+    .then(res => {
+      likeNumber.textContent = res.likes.length
+    }).catch(err => { console.log(`Ошибка при отправке лайка карточки: ${err}`) })
 };
 
 //Убрать лайк
-const deleteLike = (cardId,/* likeToggleCard */likeNumber) => {
+const deleteLike = (cardId, likeNumber) => {
   api.deleteLikeCard(cardId)
-  .then(res => {
-    likeNumber.textContent = res.likes.length
-    /* likeToggleCard() */
-  }).catch(err => { console.log(`Ошибка при удалении лайка карточки: ${err}`) })
+    .then(res => {
+      likeNumber.textContent = res.likes.length
+    }).catch(err => { console.log(`Ошибка при удалении лайка карточки: ${err}`) })
 }
 
 const popupWithImage = new PopupWithImage('#imagePopup');
@@ -148,14 +170,22 @@ const popupWithImage = new PopupWithImage('#imagePopup');
 //Подключение валидации
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
 const editProfileFormValidator = new FormValidator(validationConfig, formProfile);
+const editAvatarFormVAlidator = new FormValidator(validationConfig, avatarProfile);
 addCardFormValidator.enableValidation();
 editProfileFormValidator.enableValidation();
+editAvatarFormVAlidator.enableValidation();
 
 //Закрытие на крестик и работа формы
 editProfilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
+editAvatar.setEventListeners();
 
+editAvatarImage.addEventListener('click', () => {
+  avatarProfile.reset();
+  editAvatar.open();
+  editAvatarFormVAlidator.hideError()
+})
 
 profileButton.addEventListener('click', () => {
   editProfilePopup.open();

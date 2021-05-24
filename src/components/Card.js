@@ -1,5 +1,15 @@
 export class Card {
-  constructor({ name, link, likes, owner, _id }, cardsTemplate, handleCardClick, deletedPopup, deleteCard, removeIcon, userData, putLike, deleteLike, loadLike) {
+  constructor({ name, link, likes, owner, _id },
+    cardsTemplate,
+    handleCardClick,
+    deletedPopup,
+    deleteCard,
+    removeIcon,
+    userData,
+    putLike,
+    deleteLike,
+    loadLike
+  ) {
     this._nameImage = name;
     this._urlImage = link;
     this._likes = likes;

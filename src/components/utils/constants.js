@@ -14,6 +14,9 @@ export const popupEditForm = document.querySelector('#profileEditForm');
 export const elementAddForm = document.querySelector('#elementAddForm');
 export const imagePopup = document.querySelector('#imagePopup');
 
+export const avatarProfile = document.querySelector('#avatarImageEditForm');
+export const editAvatarImage = document.querySelector('.profile__avatar-image')
+
 export const formProfile = document.querySelector('#profileForm');
 export const nameInput = document.querySelector('#nameInput');
 export const jobInput = document.querySelector('#jobInput');

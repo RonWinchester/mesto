@@ -100,5 +100,20 @@ export class Api {
       })
   }
 
+  pathcAvatar(avatarURL) {
+    return fetch(`${this._adress}${this._groupId}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: avatarURL,
+      })
+    })
+      .then(result => {
+        return result.ok ? result.json() : Promise.reject(`Ошибка: ${res.status}`)
+      })
+  }
 }
 
