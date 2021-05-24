@@ -82,21 +82,26 @@ api.getCards()
 //Попап редактировния профиля
 const editProfilePopup = new PopupWithForm('#profileEditForm',
   function formEditProfileSubmitHandler(data) {
+    editProfileFormValidator.loadingData(true)
     api.patchUserInformation(data)
       .then(result => {
         userInfoProfile.setUserInfo(result);
       })
       .catch(err => { console.log(`Ошибка при отправке данных профиля: ${err}`) })
+      .finally(() => editProfileFormValidator.loadingData(false))
     editProfilePopup.close()
   });
 
 //Попап редактирования аватара
 const editAvatar = new PopupWithForm('#avatarEditForm',
   function formAvatarSubmitHandler(data) {
+    editAvatarFormValidator.loadingData(true)
     api.pathcAvatar(data.urlAvatarElement)
       .then(res => {
         userInfoProfile.setUserAvatar({ avatar: res.avatar })
-      }).catch(err => { console.log(`Ошибка при редактировании аватара профиля: ${err}`) })
+      })
+      .catch(err => { console.log(`Ошибка при редактировании аватара профиля: ${err}`) })
+      .finally(() => editAvatarFormValidator.loadingData(false))
     avatarProfile.reset();
     editAvatar.close()
   })
@@ -104,12 +109,14 @@ const editAvatar = new PopupWithForm('#avatarEditForm',
 //Попап добавления карточки
 const addCardPopup = new PopupWithForm('#elementAddForm',
   function handleFormSubmit(data) {
+    addCardFormValidator.loadingData(true)
     api.postCard({ name: data.nameImageElement, link: data.urlImageElement })
       .then(res => {
         const cardElement = createCard(res);
         initialСards.addItem(cardElement, true)
       })
       .catch(err => { console.log(`Ошибка при отправке карточки: ${err}`) })
+      .finally(() => addCardFormValidator.loadingData(false))
     imageAddForm.reset();
     addCardPopup.close()
   });
@@ -170,10 +177,10 @@ const popupWithImage = new PopupWithImage('#imagePopup');
 //Подключение валидации
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
 const editProfileFormValidator = new FormValidator(validationConfig, formProfile);
-const editAvatarFormVAlidator = new FormValidator(validationConfig, avatarProfile);
+const editAvatarFormValidator = new FormValidator(validationConfig, avatarProfile);
 addCardFormValidator.enableValidation();
 editProfileFormValidator.enableValidation();
-editAvatarFormVAlidator.enableValidation();
+editAvatarFormValidator.enableValidation();
 
 //Закрытие на крестик и работа формы
 editProfilePopup.setEventListeners();
@@ -184,7 +191,7 @@ editAvatar.setEventListeners();
 editAvatarImage.addEventListener('click', () => {
   avatarProfile.reset();
   editAvatar.open();
-  editAvatarFormVAlidator.hideError()
+  editAvatarFormValidator.hideError()
 })
 
 profileButton.addEventListener('click', () => {

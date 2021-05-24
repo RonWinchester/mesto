@@ -11,6 +11,16 @@ export class FormValidator {
     this._button = this._formElement.querySelector(this._submitButtonSelector);
   }
 
+//Изменение названия кнопки при загрузке
+  loadingData = (isLoading) => {
+    if (isLoading) {
+      this._buttonDefaultValue = this._button.textContent;
+      this._button.textContent = 'Сохранение...';
+    } else {
+      this._button.textContent = this._buttonDefaultValue;
+    }
+  }
+
   //Показать сообщение об ошибке
   _showInputMessage(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
