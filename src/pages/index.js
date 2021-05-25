@@ -12,7 +12,8 @@ import {
   cardsTemplate,
   imageAddForm,
   avatarProfile,
-  editAvatarImage
+  editAvatarImage,
+  removeCardForm
 } from '../components/utils/constants.js';
 
 import { Section } from '../components/Section.js';
@@ -32,17 +33,19 @@ const api = new Api({
 const userInfoProfile = new UserInfo({ name: '.profile-info__name', about: '.profile-info__job', avatar: '.profile__avatar' });
 let userData = null;
 
+//Загрузка данных профиля и карточек
+Promise.all([api.getUserInformation(), api.getCards()])
+  .then(res => {
+    userInfoProfile.setUserInfo(res[0]);
+    userInfoProfile.setUserAvatar(res[0]);
+    userData = res[0];
 
-//Загрузка данных профиля
-api.getUserInformation()
-  .then(result => {
-    userInfoProfile.setUserInfo(result);
-    userInfoProfile.setUserAvatar(result);
-    userData = result;
+    initialСards.renderItems(res[1]);
   })
   .catch(err => {
-    console.log(`Ошибка при получении данных профиля: ${err}`)
-  })
+    console.log(`Ошибка при загрузке данных профиля и карточек: ${err}`)
+  }
+  );
 
 //Инициализация карточки
 function createCard(cardData) {
@@ -69,15 +72,6 @@ const initialСards = new Section({
   }
 }, elementList);
 
-//Загрузка первых карточек
-api.getCards()
-  .then(result => {
-    initialСards.renderItems(result)
-  })
-  .catch(err => {
-    console.log(`Ошибка при загрузке карточек: ${err}`)
-  }
-  );
 
 //Попап редактировния профиля
 const editProfilePopup = new PopupWithForm('#profileEditForm',
@@ -86,10 +80,10 @@ const editProfilePopup = new PopupWithForm('#profileEditForm',
     api.patchUserInformation(data)
       .then(result => {
         userInfoProfile.setUserInfo(result);
+        editProfilePopup.close()
       })
       .catch(err => { console.log(`Ошибка при отправке данных профиля: ${err}`) })
       .finally(() => editProfileFormValidator.loadingData(false))
-    editProfilePopup.close()
   });
 
 //Попап редактирования аватара
@@ -99,11 +93,11 @@ const editAvatar = new PopupWithForm('#avatarEditForm',
     api.pathcAvatar(data.urlAvatarElement)
       .then(res => {
         userInfoProfile.setUserAvatar({ avatar: res.avatar })
+        avatarProfile.reset();
+        editAvatar.close();
       })
       .catch(err => { console.log(`Ошибка при редактировании аватара профиля: ${err}`) })
       .finally(() => editAvatarFormValidator.loadingData(false))
-    avatarProfile.reset();
-    editAvatar.close()
   })
 
 //Попап добавления карточки
@@ -114,11 +108,11 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
       .then(res => {
         const cardElement = createCard(res);
         initialСards.addItem(cardElement, true)
+        imageAddForm.reset();
+        addCardPopup.close();
       })
       .catch(err => { console.log(`Ошибка при отправке карточки: ${err}`) })
       .finally(() => addCardFormValidator.loadingData(false))
-    imageAddForm.reset();
-    addCardPopup.close()
   });
 
 //Работа с попапом удаления карточки
@@ -130,15 +124,36 @@ const handleDeleteIconClick = () => {
 }
 
 //Удалить карточки
-const deleteCard = (formRemove, removeCard, cardId) => {
-  api.deleteCards(cardId).then(res => {
-    formRemove.addEventListener('submit', (event) => {
-      event.preventDefault();
-      removeCard();
-      cardDeletePopup.close();
-    })
-  }).catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
+/* const deleteCard = (formRemove, removeCard, cardId) => {
+  formRemove.addEventListener('submit', (event) => {
+    event.preventDefault();
+    deleteCradFormValidator.loadingData(true);
+    api.deleteCards(cardId)
+      .then(res => {
+        removeCard();
+        cardDeletePopup.close();
+      })
+      .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
+      .finally(() => {
+        deleteCradFormValidator.loadingData(false);
+      })
+  })
+} */
+
+const deleteCard = (removeCard, cardId) => {
+    deleteCradFormValidator.loadingData(true);
+    api.deleteCards(cardId)
+      .then(res => {
+        removeCard();
+        cardDeletePopup.close();
+        removeCardForm.reset();
+      })
+      .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
+      .finally(() => {
+        deleteCradFormValidator.loadingData(false);
+      })
 }
+
 
 //загрузить лайки
 const loadLike = (cardLike, myId, elementButton, classActive) => {
@@ -178,6 +193,7 @@ const popupWithImage = new PopupWithImage('#imagePopup');
 const addCardFormValidator = new FormValidator(validationConfig, imageAddForm);
 const editProfileFormValidator = new FormValidator(validationConfig, formProfile);
 const editAvatarFormValidator = new FormValidator(validationConfig, avatarProfile);
+const deleteCradFormValidator = new FormValidator(validationConfig, removeCardForm)
 addCardFormValidator.enableValidation();
 editProfileFormValidator.enableValidation();
 editAvatarFormValidator.enableValidation();

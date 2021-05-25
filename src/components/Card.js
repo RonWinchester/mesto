@@ -35,14 +35,6 @@ export class Card {
     return cardsElement
   }
 
-  /*   //Переключатель лайков
-    _likeToggleCards() {
-      this._cardsElement.querySelector('.element__button-heart').addEventListener('click', function (evt) {
-        evt.target.classList.toggle('element__button-heart_active');
-      })
-    }; */
-
-
   _likeToggleCards = () => {
     this._cardsElement.querySelector('.element__button-heart').addEventListener('click', (evt) => {
       if (!evt.target.classList.contains('element__button-heart_active')) {
@@ -68,7 +60,13 @@ export class Card {
       this._handleDeleteIconClick();
       this._cardRemovePopup = document.querySelector('.popup_opened');
       this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
-      this._deleteCard(this._cardRemoveButton, this._removeCards, this._idCard);
+
+      this._cardRemoveButton.addEventListener('submit', event => {
+        event.preventDefault();
+        this._deleteCard(this._removeCards, id)
+      })
+
+      /* this._deleteCard(this._cardRemoveButton, this._removeCards, this._idCard); */
     })
   }
 
@@ -88,6 +86,8 @@ export class Card {
     this._likeToggleCards()
     this._setEventListeners();
     this._loadLike(this._likes, this._userId, this._buttonHeart, 'element__button-heart_active')
+
+
 
     this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._urlImage, this._nameImage)

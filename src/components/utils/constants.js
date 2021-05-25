@@ -16,6 +16,7 @@ export const imagePopup = document.querySelector('#imagePopup');
 
 export const avatarProfile = document.querySelector('#avatarImageEditForm');
 export const editAvatarImage = document.querySelector('.profile__avatar-image')
+export const removeCardForm = document.querySelector('#CardRemoveForm')
 
 export const formProfile = document.querySelector('#profileForm');
 export const nameInput = document.querySelector('#nameInput');

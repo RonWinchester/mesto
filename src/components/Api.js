@@ -5,14 +5,18 @@ export class Api {
       this._groupId = groupId
   }
 
+  _getResponseData(res) {
+    return res.ok ? res.json() : Promise.reject(`${res.status}`)
+  }
+
   getUserInformation() {
     return fetch(`${this._adress}${this._groupId}/users/me`, {
       headers: {
         authorization: this._token
       }
     })
-      .then(res => {
-        return res.ok ? res.json() : Promise.reject(`${res.status}`)
+    .then(res => {
+        return this._getResponseData(res)
       })
   }
 
@@ -28,8 +32,8 @@ export class Api {
         about: data.about,
       })
     })
-      .then(result => {
-        return result.ok ? result.json() : Promise.reject(`Ошибка: ${res.status}`)
+      .then(res => {
+        return this._getResponseData(res)
       })
   }
 
@@ -40,7 +44,7 @@ export class Api {
       }
     })
       .then(res => {
-        return res.ok ? res.json() : Promise.reject(`${res.status}`)
+        return this._getResponseData(res)
       })
   }
 
@@ -57,7 +61,7 @@ export class Api {
       })
     })
       .then(res => {
-        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+        return this._getResponseData(res)
       })
   }
 
@@ -70,7 +74,7 @@ export class Api {
       }
     })
       .then(res => {
-        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+        return this._getResponseData(res)
       })
   }
 
@@ -83,7 +87,7 @@ export class Api {
       }
     })
       .then(res => {
-        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+        return this._getResponseData(res)
       })
   }
 
@@ -96,7 +100,7 @@ export class Api {
       }
     })
       .then(res => {
-        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+        return this._getResponseData(res)
       })
   }
 
@@ -111,8 +115,8 @@ export class Api {
         avatar: avatarURL,
       })
     })
-      .then(result => {
-        return result.ok ? result.json() : Promise.reject(`Ошибка: ${res.status}`)
+      .then(res => {
+        return this._getResponseData(res)
       })
   }
 }
