@@ -116,7 +116,8 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
   });
 
 //Работа с попапом удаления карточки
-const cardDeletePopup = new Popup('#deletionCardForm')
+const cardDeletePopup = new Popup('#deletionCardForm');
+
 cardDeletePopup.setEventListeners();
 
 const handleDeleteIconClick = () => {
@@ -139,7 +140,7 @@ const handleDeleteIconClick = () => {
       })
   })
 } */
-
+//Удалить карточки
 const deleteCard = (removeCard, cardId) => {
     deleteCradFormValidator.loadingData(true);
     api.deleteCards(cardId)
