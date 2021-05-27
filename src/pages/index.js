@@ -21,7 +21,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-import { Popup } from '../components/Popup.js';
+import { DeleteConfirmationPopup } from '../components/DeleteConfirmationPopup.js'
 
 //Подключение к Api
 const api = new Api({
@@ -115,44 +115,27 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
       .finally(() => addCardFormValidator.loadingData(false))
   });
 
-//Работа с попапом удаления карточки
-const cardDeletePopup = new Popup('#deletionCardForm');
 
-cardDeletePopup.setEventListeners();
-
-const handleDeleteIconClick = () => {
-  cardDeletePopup.open();
+//Удалить карточки
+const deleteCard = (data) => {
+  deleteCradFormValidator.loadingData(true);
+  api.deleteCards(data._idCard)
+    .then(res => {
+      data._removeCards()
+      cardDeletePopup.close();
+    })
+    .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
+    .finally(() => {
+      deleteCradFormValidator.loadingData(false);
+    })
 }
 
-//Удалить карточки
-/* const deleteCard = (formRemove, removeCard, cardId) => {
-  formRemove.addEventListener('submit', (event) => {
-    event.preventDefault();
-    deleteCradFormValidator.loadingData(true);
-    api.deleteCards(cardId)
-      .then(res => {
-        removeCard();
-        cardDeletePopup.close();
-      })
-      .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
-      .finally(() => {
-        deleteCradFormValidator.loadingData(false);
-      })
-  })
-} */
-//Удалить карточки
-const deleteCard = (removeCard, cardId) => {
-    deleteCradFormValidator.loadingData(true);
-    api.deleteCards(cardId)
-      .then(res => {
-        removeCard();
-        cardDeletePopup.close();
-        removeCardForm.reset();
-      })
-      .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })
-      .finally(() => {
-        deleteCradFormValidator.loadingData(false);
-      })
+//Работа с попапом удаления карточки
+const cardDeletePopup = new DeleteConfirmationPopup('#deletionCardForm', deleteCard);
+
+
+const handleDeleteIconClick = (data) => {
+  cardDeletePopup.open(data);
 }
 
 
@@ -204,6 +187,7 @@ editProfilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 popupWithImage.setEventListeners();
 editAvatar.setEventListeners();
+cardDeletePopup.setEventListeners();
 
 editAvatarImage.addEventListener('click', () => {
   avatarProfile.reset();

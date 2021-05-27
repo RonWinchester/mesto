@@ -48,28 +48,16 @@ export class Card {
     })
   };
 
-
   //Удаление карточки
   _removeCards = () => {
     this._cardsElement.remove();
   }
 
-/*   _eventListeners = () => {
-    this._handleDeleteIconClick();
-    this._cardRemovePopup = document.querySelector('.popup_opened');
-    this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
-
-    this._cardRemoveButton.addEventListener('submit', event => {
-      event.preventDefault();
-      this._deleteCard(this._removeCards, this._idCard)
-    })
-  } */
-
   //Слушатели для попапа удаления
   _setEventListeners() {
     this._buttonRemove.addEventListener('click', () => {
-      this._handleDeleteIconClick();
-      this._cardRemovePopup = document.querySelector('.popup_opened');
+      this._handleDeleteIconClick(this);
+      /* this._cardRemovePopup = document.querySelector('.popup_opened');
       this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
 
       this._cardRemoveButton.addEventListener('submit', event => {
@@ -77,10 +65,11 @@ export class Card {
         this._deleteCard(this._removeCards, this._idCard)
       })
 
-      /* this._deleteCard(this._cardRemoveButton, this._removeCards, this._idCard); */
+       this._deleteCard(this._cardRemoveButton, this._removeCards, this._idCard); */
     })
 
   }
+
 
   //Инициализация карточки
   getCardElement() {
@@ -95,11 +84,12 @@ export class Card {
 
 
     this._removeIcon(this._id, this._userId, this._buttonRemove)
-    this._likeToggleCards()
-    this._setEventListeners();
+    this._likeToggleCards();
     this._loadLike(this._likes, this._userId, this._buttonHeart, 'element__button-heart_active')
+    this._setEventListeners();
 
-    /* this._buttonRemove.addEventListener('click', this._eventListeners) */
+  /*   this._buttonRemove.addEventListener('click', this._eventListeners) */
+
 
     this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._urlImage, this._nameImage)
