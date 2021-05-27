@@ -8,15 +8,14 @@ export class DeleteConfirmationPopup extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._deleteForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+    this._deleteForm.addEventListener("submit", (event) => {
+      event.preventDefault();
       this._deleteFunction(this._data);
     });
-
   }
+
   open(data) {
     super.open();
     this._data = data
-/*     this.submitButton.textContent = this.submitButton.value
- */  }
+  }
 }

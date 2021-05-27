@@ -119,9 +119,9 @@ const addCardPopup = new PopupWithForm('#elementAddForm',
 //Удалить карточки
 const deleteCard = (data) => {
   deleteCradFormValidator.loadingData(true);
-  api.deleteCards(data._idCard)
+  api.deleteCards(data.idCard)
     .then(res => {
-      data._removeCards()
+      data.removeCards()
       cardDeletePopup.close();
     })
     .catch(err => { console.log(`Ошибка при удалении карточки: ${err}`) })

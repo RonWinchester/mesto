@@ -15,7 +15,7 @@ export class Card {
     this._likes = likes;
     this._id = owner._id;
     this._userId = userData._id
-    this._idCard = _id;
+    this.idCard = _id;
 
 
     this._cardsTemplate = cardsTemplate;
@@ -38,18 +38,18 @@ export class Card {
   _likeToggleCards = () => {
     this._cardsElement.querySelector('.element__button-heart').addEventListener('click', (evt) => {
       if (!evt.target.classList.contains('element__button-heart_active')) {
-        this._putLike(this._idCard, this._cardsElement.querySelector('.element__like-number'))
+        this._putLike(this.idCard, this._cardsElement.querySelector('.element__like-number'))
         evt.target.classList.add('element__button-heart_active')
 
       } else {
-        this._deleteLike(this._idCard, this._cardsElement.querySelector('.element__like-number'));
+        this._deleteLike(this.idCard, this._cardsElement.querySelector('.element__like-number'));
         evt.target.classList.remove('element__button-heart_active')
       }
     })
   };
 
   //Удаление карточки
-  _removeCards = () => {
+  removeCards = () => {
     this._cardsElement.remove();
   }
 
@@ -57,17 +57,7 @@ export class Card {
   _setEventListeners() {
     this._buttonRemove.addEventListener('click', () => {
       this._handleDeleteIconClick(this);
-      /* this._cardRemovePopup = document.querySelector('.popup_opened');
-      this._cardRemoveButton = this._cardRemovePopup.querySelector('#CardRemoveForm');
-
-      this._cardRemoveButton.addEventListener('submit', event => {
-        event.preventDefault();
-        this._deleteCard(this._removeCards, this._idCard)
-      })
-
-       this._deleteCard(this._cardRemoveButton, this._removeCards, this._idCard); */
     })
-
   }
 
 
@@ -87,10 +77,6 @@ export class Card {
     this._likeToggleCards();
     this._loadLike(this._likes, this._userId, this._buttonHeart, 'element__button-heart_active')
     this._setEventListeners();
-
-  /*   this._buttonRemove.addEventListener('click', this._eventListeners) */
-
-
     this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._urlImage, this._nameImage)
     });
